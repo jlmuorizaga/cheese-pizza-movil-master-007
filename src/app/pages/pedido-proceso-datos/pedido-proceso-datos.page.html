@@ -1,0 +1,60 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Datos del pedido</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="seleccion-tipo-entrega"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        @if(pedido){
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Pedido #{{ pedido.numeroPedido }}</ion-card-title>
+            <ion-card-subtitle>{{ pedido.datosSucursal }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            {{ pedido.fechaHoraStr }} <br />
+            <br />
+            Cantidad total de productos: {{pedido.cantidadProductos}} <br />
+            Resumen del pedido: {{ pedido.resumenPedido }} <br />
+            <br />
+            Monto total: {{ pedido.montoTotalStr }} <br />
+            <br />
+            <b>Tipo de entrega: {{ pedido.modalidadEntregaStr }}</b>
+            <br />
+            <br />
+            <b>Domicilio de entrega:</b> @for (domi of
+            pedido.domicilioDesglosado; track $index) { {{domi}}
+            <br />
+            }
+            <br />
+            Desglose del pedido:
+            <br />
+            <br />
+            @for (detalle of pedido.detallePedidoDesglosado; track $index) {
+            {{detalle}} <br />
+            }
+            <br />
+            @if (pedido.instruccionesEspeciales) { Instrucciones especiales:
+            {{pedido.instruccionesEspeciales}}
+            <br />
+            <br />
+            } Recibo de pago <br />
+
+            <a [href]="pedido.urlReciboPago" target="_blank"
+              >{{pedido.urlReciboPago}}</a
+            >
+
+            <br />
+          </ion-card-content>
+        </ion-card>
+        }
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

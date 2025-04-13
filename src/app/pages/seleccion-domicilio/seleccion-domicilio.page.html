@@ -1,0 +1,89 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Selección de domicilio</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <app-datos-encabezado></app-datos-encabezado>
+
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <h1>Selecciona el domicilio</h1>
+
+        <ion-grid fixed>
+          <ion-row>
+            @for (domicilio of domicilios; track $index) {
+
+            <ion-col size-sm="12" size-md="6" size-lg="4" size-xl="4" size="12">
+              <ion-card>
+                <ion-card-header
+                  color="primary"
+                  (click)="seleccionaDomicilio(domicilio)"
+                  class="seleccion"
+                >
+                  <ion-card-subtitle>Entregar aquí</ion-card-subtitle>
+                  <ion-card-title> {{domicilio.domicilio}} </ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <br />
+                  @for (domPart of domicilio.domicilioComplementoDesglosado;
+                  track $index) { {{domPart}}
+                  <br />
+                  } Ubicación: {{domicilio.latitud}}, {{domicilio.longitud}}
+                  <br />
+
+                  @if (eliminaDomicilios) {
+                  <br />
+
+                  <ion-button
+                    color="warning"
+                    (click)="eliminaDomicilio(domicilio)"
+                    expand="block"
+                  >
+                    Elimina este domicilio
+                  </ion-button>
+                  }
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+
+            }
+          </ion-row>
+        </ion-grid>
+
+        <br />
+
+        <ion-card>
+          <ion-card-content>
+            <p>¿No está el domicilio donde requieres la entrega?</p>
+            <ion-button
+              color="secondary"
+              (click)="irAgregarDomicilio()"
+              expand="block"
+            >
+              Agregar un domicilio
+            </ion-button>
+
+            @if (hayDomicilios) {
+            <br />
+            <p>¿Hay domicilios que ya no necesitas?</p>
+            <ion-button
+              color="warning"
+              (click)="preparaEliminaDomicilios()"
+              expand="block"
+            >
+              @if (eliminaDomicilios) { Desactiva eliminación }@else { Elimina
+              domicilio }
+            </ion-button>
+            }
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

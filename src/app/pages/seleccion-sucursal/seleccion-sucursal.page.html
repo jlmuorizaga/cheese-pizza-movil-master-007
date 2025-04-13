@@ -1,0 +1,52 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Selección de sucursal</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="seleccion-tipo-entrega"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <app-datos-encabezado></app-datos-encabezado>
+        <p>Selecciona la sucursal donde quieres realizar un nuevo pedido</p>
+        <ion-grid fixed>
+          <ion-row>
+            @if(puntoVenta.sucursales && puntoVenta.sucursales.length>0){ @for
+            (sucursal of puntoVenta.sucursales; track $index) {
+            <ion-col size-sm="12" size-md="6" size-lg="4" size-xl="4" size="12">
+              <ion-card
+                class="seleccion"
+                (click)="seleccionaSucursal(sucursal)"
+              >
+                <img [src]="sucursal.pleca" />
+                <ion-card-header>
+                  <ion-card-title>{{sucursal.nombre}}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  {{sucursal.domicilio}}<br />
+                  Horario de pedidos: {{sucursal.horaInicio}} -
+                  {{sucursal.horaFin}}
+                  <br />
+                  Ubicación: {{sucursal.latitud}}, {{sucursal.longitud}}
+                  @if(sucursal.distanciaAproximada > 0){
+                  <br />
+                  Distancia aproximada: {{sucursal.distanciaAproximadaStr}} km }
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            } }@else {
+            <h1>
+              Lo sentimos, no estás cerca de ninguna sucursal donde puedas hacer
+              tu pedido
+            </h1>
+            }
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

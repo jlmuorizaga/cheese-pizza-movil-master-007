@@ -1,0 +1,117 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Arma tu promoción</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <app-datos-encabezado></app-datos-encabezado>
+        <app-boton-pedido></app-boton-pedido>
+        <app-boton-menu></app-boton-menu>
+        <br />
+        <h1>{{promocion.nombre}}</h1>
+        {{promocion.descripcion}}
+        <br /><br />
+        {{promocion.precioMXN}}
+        <br /><br />
+        Selecciona cada uno de los artículos que componen la promoción
+        <br />
+
+        <ion-grid fixed>
+          <ion-row>
+            @for (categoria of promocion.categoriasParaSeleccion; track $index)
+            {
+            <ion-col
+              size="12"
+              size-sm="12"
+              size-md="12"
+              size-lg="6"
+              size-xl="4"
+            >
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title>{{categoria.nombre}}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <ion-radio-group
+                    [(ngModel)]="categoria.productoGeneralSeleccionado"
+                  >
+                    @for (pizza of categoria.pizzasEnCategoria; track $index) {
+                    <ion-item>
+                      <ion-radio [value]="pizza">
+                        {{pizza.nombre}} {{pizza.tamanio}}
+                        @if(pizza.esDeUnIngrediente){
+                        <ion-select
+                          [(ngModel)]="pizza.ingrediente"
+                          placeholder="Selecciona ingrediente"
+                          interface="action-sheet"
+                          [interfaceOptions]="customActionSheetOptionsIngredientes"
+                          cancelText="Cancelar"
+                        >
+                          @for (ingrediente of
+                          puntoVenta.sucursalSeleccionada.menu.seccionPizzas.ingredientes;
+                          track $index) {
+                          <ion-select-option [value]="ingrediente">
+                            {{ingrediente.nombre}}
+                          </ion-select-option>
+                          }
+                        </ion-select>
+                        }
+                      </ion-radio>
+                    </ion-item>
+                    } @for (producto of categoria.productosEnCategoria; track
+                    $index) {
+                    <ion-item>
+                      <ion-radio [value]="producto">
+                        {{producto.nombre}} {{producto.tamanio}}
+                        @if(producto.usaSalsa){
+                        <ion-select
+                          [(ngModel)]="producto.salsaSeleccionada"
+                          placeholder="Selecciona salsa"
+                          interface="action-sheet"
+                          [interfaceOptions]="customActionSheetOptionsSalsas"
+                          cancelText="Cancelar"
+                        >
+                          @for (salsa of
+                          puntoVenta.sucursalSeleccionada.menu.seccionOtrosProductos.salsas;
+                          track $index) {
+                          <ion-select-option [value]="salsa">
+                            {{salsa.nombre}}
+                          </ion-select-option>
+                          }
+                        </ion-select>
+                        }
+                      </ion-radio>
+                    </ion-item>
+                    }
+                  </ion-radio-group>
+                  <!--
+                  @if (categoria.productoGeneralSeleccionado) {
+                  {{categoria.productoGeneralSeleccionado.id}} }
+                  -->
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            }
+          </ion-row>
+        </ion-grid>
+
+        <div class="botonAgregar">
+          <ion-button (click)="agregaPromocionAPedido()" color="primary">
+            Agregar promo al pedido
+          </ion-button>
+        </div>
+
+        <br />
+        <app-boton-pedido></app-boton-pedido>
+        <app-boton-menu></app-boton-menu>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,134 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Selección de pizza</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <app-datos-encabezado></app-datos-encabezado>
+        <app-boton-pedido></app-boton-pedido>
+        <app-boton-menu></app-boton-menu>
+        <div id="img2x1container">
+          <img id="img2x1" src="assets/images/2x1.png" />
+        </div>
+
+        @if(especialidad){
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col size-sm="12" size-md="6" size-lg="4" size-xl="4" size="12">
+              <ion-card>
+                <img [src]="especialidad.imgUrlCompleta" />
+                <ion-card-header>
+                  <ion-card-title>{{especialidad.nombre}}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  {{especialidad.ingredientes}}
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            @for (pizza of especialidad.pizzas; track $index) {
+
+            <ion-col size-sm="12" size-md="6" size-lg="4" size-xl="4" size="12">
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title>
+                    {{pizza.nombre}} {{pizza.tamanio}}
+                  </ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <ion-item>
+                    <strong>{{pizza.preciox2MXN}}</strong>
+                    @if (pizza.aplica2x1) {
+                    <ion-chip color="primary" mode="ios" outline="true">
+                      <ion-label>Precio por 2 pizzas *</ion-label>
+                    </ion-chip>
+                    } @if (pizza.aplicaBebidaGratis) {
+                    <ion-chip color="secondary" mode="ios" outline="true">
+                      <ion-label>Bebida gratis **</ion-label>
+                    </ion-chip>
+                    }
+                  </ion-item>
+                  @if (especialidad.esDeUnIngrediente) {
+                  <ion-item>
+                    <ion-select
+                      [(ngModel)]="pizza.ingrediente"
+                      value=""
+                      interface="action-sheet"
+                      placeholder="Selecciona ingrediente"
+                      [interfaceOptions]="customActionSheetOptionsIngredientes"
+                      cancelText="Cancelar"
+                    >
+                      @for (ingrediente of
+                      puntoVenta.sucursalSeleccionada.menu.seccionPizzas.ingredientes;
+                      track $index) {
+                      <ion-select-option [value]="ingrediente">
+                        {{ingrediente.nombre}}
+                      </ion-select-option>
+                      }
+                    </ion-select>
+                  </ion-item>
+                  }
+
+                  <ion-item>
+                    <ion-select
+                      [(ngModel)]="pizza.orilla"
+                      placeholder="Selecciona orilla de queso"
+                      cancelText="Cancelar"
+                    >
+                      <ion-select-option [value]="null">
+                        Orilla normal
+                      </ion-select-option>
+                      @for (orilla of pizza.orillas; track $index) {
+                      <ion-select-option [value]="orilla">
+                        {{orilla.descripcion}} {{orilla.precioxMXN}}
+                      </ion-select-option>
+                      }
+                    </ion-select>
+                  </ion-item>
+                  <br />
+                  <ion-button
+                    (click)="agregaPizzaAPedido(pizza)"
+                    expand="block"
+                  >
+                    Agregar al pedido
+                  </ion-button>
+
+                  @if (pizza.aplica2x1) {
+                  <p>
+                    * En caso de solicitar pizzas de diferente precio se cobrará
+                    la de mayor costo
+                  </p>
+                  <p>* Sólo aplica en pizzas del mismo tamaño</p>
+
+                  }@else {
+                  <p>* No aplica 2x1 en esta pizza</p>
+                  } @if (pizza.aplicaBebidaGratis){
+                  <p>
+                    ** Esta pizza participa en la promoción de bebida gratis,
+                    agrega también a tu pedido una bebida participante.
+                  </p>
+                  } @if (muestraCategorias) {
+                  <br />
+                  <span class="categorias">{{pizza.categoriasStr}}</span>
+                  }
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            }
+          </ion-row>
+        </ion-grid>
+
+        }
+
+        <app-boton-pedido></app-boton-pedido>
+        <app-boton-menu></app-boton-menu>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

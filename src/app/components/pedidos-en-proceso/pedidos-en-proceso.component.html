@@ -1,0 +1,29 @@
+@if(pedidosProceso){
+<p>{{ mensaje }}</p>
+<ion-grid fixed>
+  <ion-row>
+    @for (pedido of pedidosProceso; track $index) {
+    <ion-col size="12" size-sm="12" size-sm="6" size-lg="4" size-xl="3">
+      <ion-card class="seleccion" (click)="abreDatosPedido(pedido.idPedido)">
+        <ion-card-header>
+          <ion-card-title>Pedido #{{ pedido.numeroPedido }}</ion-card-title>
+          <ion-card-subtitle>{{ pedido.datosSucursal }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          {{ pedido.fechaHoraStr }} <br />
+          {{ pedido.resumenPedido }} <br />
+          {{ pedido.montoTotalStr }} <br />
+          <b>Tipo de entrega: {{ pedido.modalidadEntregaStr }}</b>
+          <br />
+          <br />
+          <strong>{{ pedido.estatusStr }}</strong>
+          <br />
+          <ion-progress-bar [value]="pedido.valorEstatus"></ion-progress-bar>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+    }
+  </ion-row>
+</ion-grid>
+
+}

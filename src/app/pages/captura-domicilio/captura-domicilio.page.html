@@ -1,0 +1,191 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Captura domicilio</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <app-datos-encabezado></app-datos-encabezado>
+        <p>Captura un nuevo domicilio para recibir pedidos de Cheese Pizza</p>
+        <br />
+
+        <!-- Formulario para capturar el domicilio -->
+        <form [formGroup]="domicilioForm" (ngSubmit)="verificarUbicacion()">
+          <ion-item>
+            <ion-input
+              label="Calle (sin número)"
+              label-placement="floating"
+              placeholder="Captura tu calle sin número"
+              formControlName="calle"
+            ></ion-input>
+          </ion-item>
+
+          @if (domicilioForm.get('calle')?.invalid &&
+          domicilioForm.get('calle')?.touched) {
+          <ion-label color="danger"> La calle no puede quedar vacía.</ion-label>
+          }
+          <br />
+
+          <ion-item>
+            <ion-input
+              label="Número"
+              label-placement="floating"
+              placeholder="Captura el número de tu domicilio"
+              formControlName="numero"
+            ></ion-input>
+          </ion-item>
+
+          @if (domicilioForm.get('numero')?.invalid &&
+          domicilioForm.get('numero')?.touched) {
+          <ion-label color="danger">
+            El número no puede quedar vacío.</ion-label
+          >
+          }
+          <br />
+
+          <ion-item>
+            <ion-input
+              label="Código postal"
+              label-placement="floating"
+              placeholder="Captura tu código postal"
+              formControlName="codigoPostal"
+            ></ion-input>
+          </ion-item>
+
+          @if (domicilioForm.get('codigoPostal')?.invalid &&
+          domicilioForm.get('codigoPostal')?.touched) {
+          <ion-label color="danger">
+            El código postal debe tener 5 dígitos sin espacios.
+          </ion-label>
+          }
+          <br />
+
+          <ion-item>
+            <ion-input
+              label="Estado"
+              label-placement="floating"
+              placeholder="Captura el estado de la república"
+              formControlName="estado"
+            ></ion-input>
+          </ion-item>
+
+          @if (domicilioForm.get('estado')?.invalid &&
+          domicilioForm.get('estado')?.touched) {
+          <ion-label color="danger">
+            El estado no puede quedar vacío.</ion-label
+          >
+          }
+          <br />
+
+          <ion-item>
+            <ion-input
+              label="Ciudad"
+              label-placement="floating"
+              placeholder="Captura la ciudad o localidad"
+              formControlName="ciudad"
+            ></ion-input>
+          </ion-item>
+
+          @if (domicilioForm.get('ciudad')?.invalid &&
+          domicilioForm.get('ciudad')?.touched) {
+          <ion-label color="danger">
+            La ciudad no puede quedar vacía.</ion-label
+          >
+          }
+          <br />
+
+          <ion-item>
+            <ion-input
+              label="Colonia"
+              label-placement="floating"
+              placeholder="Captura tu colonia"
+              formControlName="colonia"
+            ></ion-input>
+          </ion-item>
+
+          @if (domicilioForm.get('colonia')?.invalid &&
+          domicilioForm.get('colonia')?.touched) {
+          <ion-label color="danger">
+            La colonia no puede quedar vacía.</ion-label
+          >
+          }
+          <br />
+
+          <ion-item>
+            <ion-textarea
+              label="Información adicional"
+              label-placement="floating"
+              placeholder="Captura alguna información que ayude a ubicar mejor tu domicilio"
+              formControlName="infoAdicional"
+              [autoGrow]="true"
+            ></ion-textarea>
+          </ion-item>
+
+          <br />
+
+          <!-- Botón que se habilita sólo si el formulario es válido y no se está consultando la API -->
+          <ion-button
+            expand="full"
+            type="submit"
+            [disabled]="!domicilioForm.valid || loading"
+          >
+            Verificar Ubicación
+          </ion-button>
+        </form>
+
+        <!-- Mensaje de carga opcional -->
+        <ion-loading
+          *ngIf="loading"
+          message="Buscando ubicación..."
+        ></ion-loading>
+
+        <!-- Muestra los datos capturados -->
+        <ion-card *ngIf="direccionCompleta">
+          <ion-card-header>
+            <ion-card-title>Dirección Capturada</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p><strong>Calle:</strong> {{ direccionCompleta.calle }}</p>
+            <p><strong>Número:</strong> {{ direccionCompleta.numero }}</p>
+            <p>
+              <strong>Código Postal:</strong> {{ direccionCompleta.codigoPostal
+              }}
+            </p>
+            <p><strong>Estado:</strong> {{ direccionCompleta.estado }}</p>
+            <p><strong>Ciudad:</strong> {{ direccionCompleta.ciudad }}</p>
+            <p><strong>Colonia:</strong> {{ direccionCompleta.colonia }}</p>
+            <p *ngIf="direccionCompleta.infoAdicional">
+              <strong>Información Adicional:</strong> {{
+              direccionCompleta.infoAdicional }}
+            </p>
+            <p><strong>Latitud:</strong> {{ direccionCompleta.lat }}</p>
+            <p><strong>Longitud:</strong> {{ direccionCompleta.lng }}</p>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Contenedor para el mapa: se muestra sólo si se tiene la dirección completa -->
+        <div
+          #mapContainer
+          id="map"
+          style="width: 100%; height: 300px"
+          *ngIf="direccionCompleta"
+        ></div>
+
+        <br />
+        <ion-button
+          *ngIf="direccionCompleta"
+          (click)="guardarDomicilio()"
+          expand="block"
+        >
+          Guardar el domicilio
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

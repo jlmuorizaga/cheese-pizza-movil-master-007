@@ -1,0 +1,23 @@
+<ion-menu side="end" contentId="main-content">
+  <ion-header>
+    <ion-toolbar color="tertiary">
+      <ion-title>Cheese Pizza Móvil</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <div id="container">
+      <ion-button (click)="cambiarRegion()" expand="block" fill="clear">
+        Cambiar región
+      </ion-button>
+      <ion-button (click)="editarDatos()" expand="block" fill="clear">
+        Editar mis datos
+      </ion-button>
+      <ion-button (click)="cerrarSesion()" expand="block" fill="clear">
+        Cerrar la sesión
+      </ion-button>
+      <br />
+      <br />
+      <p>Versión: {{ versionApp }}</p>
+    </div>
+  </ion-content>
+</ion-menu>

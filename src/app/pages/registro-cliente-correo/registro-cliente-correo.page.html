@@ -1,0 +1,135 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Cheese Pizza Móvil</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <div id="container">
+          <h1>Registro</h1>
+          <p>
+            Para iniciar tu registro, por favor primero escribe tu correo
+            electrónico
+          </p>
+          <form
+            [formGroup]="formularioCorreoCliente"
+            (ngSubmit)="verificaCorreo()"
+          >
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col
+                  size="0"
+                  size-sm="0"
+                  size-md="2"
+                  size-lg="3"
+                  size-xl="3"
+                ></ion-col>
+                <ion-col
+                  size="12"
+                  size-sm="12"
+                  size-md="8"
+                  size-lg="6"
+                  size-xl="6"
+                >
+                  <ion-item>
+                    <ion-input
+                      label="Correo electrónico"
+                      label-placement="floating"
+                      placeholder="Escribe tu correo electrónico"
+                      formControlName="correoElectronico"
+                      type="email"
+                    ></ion-input>
+                  </ion-item>
+
+                  @if (formularioCorreoCliente.get('correoElectronico')?.invalid
+                  && formularioCorreoCliente.get('correoElectronico')?.touched)
+                  {
+                  <ion-label color="danger">
+                    Por favor, ingrese un correo válido.
+                  </ion-label>
+                  }
+                  <br />
+
+                  <ion-item>
+                    <ion-input
+                      label="Confirma correo electrónico"
+                      label-placement="floating"
+                      placeholder="Escribe nuevamente tu correo electrónico"
+                      formControlName="confirmaCorreoElectronico"
+                      type="email"
+                    ></ion-input>
+                  </ion-item>
+
+                  @if
+                  (formularioCorreoCliente.get('confirmaCorreoElectronico')?.invalid
+                  &&
+                  formularioCorreoCliente.get('confirmaCorreoElectronico')?.touched)
+                  {
+                  <ion-label color="danger">
+                    Por favor, ingrese un correo válido.
+                  </ion-label>
+                  }
+                  <br />
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+
+            <br />
+
+            <ion-button
+              type="submit"
+              [disabled]="formularioCorreoCliente.invalid"
+            >
+              {{textoBoton}}
+            </ion-button>
+            <br />
+            <br />
+          </form>
+          @if (codigoEnviado) {
+          <p>
+            Por favor, escribe el código de verificación que enviamos a tu
+            correo para poder continuar con tu registro. <br /><br />
+
+            Si no ves el correo en tu buzón, por favor revisa también en la
+            carpeta de spam.
+          </p>
+          <ion-grid fixed>
+            <ion-row>
+              <ion-col size-sm="0" size-md="0" size-lg="3" size-xl="3" size="0">
+              </ion-col>
+              <ion-col
+                size-sm="12"
+                size-md="12"
+                size-lg="6"
+                size-xl="6"
+                size="12"
+              >
+                <ion-item>
+                  <ion-input
+                    label="Código de verificacion"
+                    label-placement="floating"
+                    placeholder="999999"
+                    [(ngModel)]="codigoVerificacionCapturado"
+                    type="number"
+                  ></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col size-sm="0" size-md="0" size-lg="3" size-xl="3" size="0">
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <br />
+          <ion-button (click)="verificaCodigo()"> Verificar </ion-button>
+          <br /><br />
+          }
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

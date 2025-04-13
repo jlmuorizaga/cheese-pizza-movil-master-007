@@ -1,0 +1,173 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Pedido</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <app-datos-encabezado></app-datos-encabezado>
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col
+              size="0"
+              size-sm="12"
+              size-md="2"
+              size-lg="3"
+              size-xl="3"
+            ></ion-col>
+            <ion-col size="12" size-sm="12" size-md="8" size-lg="6" size-xl="6">
+              @for (elemento of
+              puntoVenta.sucursalSeleccionada.pedido.elementos; track $index) {
+              <ion-item>
+                <p class="descripcion">
+                  <ion-button
+                    [disabled]="elemento.cantidad <= 1"
+                    color="dark"
+                    class="controlCantidad"
+                    (click)="disminuir(elemento)"
+                    fill="clear"
+                  >
+                    <ion-icon
+                      slot="icon-only"
+                      name="remove-circle-outline"
+                    ></ion-icon>
+                  </ion-button>
+                  <ion-button
+                    color="dark"
+                    class="controlCantidad"
+                    fill="clear"
+                    shape="round"
+                  >
+                    {{elemento.cantidad}}
+                  </ion-button>
+                  <ion-button
+                    color="dark"
+                    class="controlCantidad"
+                    (click)="aumentar(elemento)"
+                    fill="clear"
+                  >
+                    <ion-icon
+                      slot="icon-only"
+                      name="add-circle-outline"
+                    ></ion-icon>
+                  </ion-button>
+
+                  <br />
+
+                  @if(elemento.esPromo){
+                  <ion-icon
+                    class="promocion"
+                    name="sparkles"
+                    color="secondary"
+                  ></ion-icon>
+                  } {{elemento.descripcion}}
+                  <br />
+                  {{elemento.precioMXN}} @if(elemento.esPromo){
+                  <br />
+                  @for (cat of elemento.articulosPromo; track $index) {
+                  <span class="detallePromo">
+                    {{cat.productoGeneralSeleccionado.descripcionStr}}
+                  </span>
+                  <br />
+                  } @if(!elemento.esPromocionValida){
+                  <ion-label color="danger">
+                    @for (m of elemento.mensajeDePromocionValida; track $index)
+                    { {{m}}<br />}
+                  </ion-label>
+                  } } @if(elemento.esPizza){ @if(elemento.orillaSeleccionada){
+                  <br />
+                  {{elemento.orillaSeleccionada.descripcion}}
+                  {{elemento.orillaSeleccionada.precioxMXN}} } } @if
+                  (muestraCategorias) {
+                  <br />
+                  <span class="categorias">{{elemento.categoriasStr}}</span>
+                  }
+                </p>
+                <p class="precio">
+                  <ion-button
+                    color="danger"
+                    class="controlCantidad"
+                    (click)="eliminar(elemento)"
+                    fill="clear"
+                  >
+                    <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                  </ion-button>
+                  <br />
+                  <strong>{{elemento.subTotalMXN}}</strong>
+                  @if(elemento.casoPrecio){
+                  <br />
+                  {{elemento.casoPrecio}} }
+                </p>
+              </ion-item>
+              }
+              <ion-item>
+                <ion-label class="total">
+                  <strong>
+                    Total:
+                    {{puntoVenta.sucursalSeleccionada.pedido.totalPedidoMXN}}
+                  </strong>
+                </ion-label>
+              </ion-item>
+              @if(puntoVenta.sucursalSeleccionada.pedido.mensajeBebidas){
+              <ion-item>
+                <ion-label>
+                  {{puntoVenta.sucursalSeleccionada.pedido.mensajeBebidas}}
+                </ion-label>
+              </ion-item>
+              }
+
+              <ion-item>
+                <ion-textarea
+                  label="Instrucciones especiales"
+                  label-placement="floating"
+                  placeholder="¿Necesitas algo especial? ¿quitar la cebolla?"
+                  [autoGrow]="true"
+                  [(ngModel)]="puntoVenta.sucursalSeleccionada.pedido.instruccionesEspeciales"
+                >
+                </ion-textarea>
+              </ion-item>
+            </ion-col>
+            <ion-col
+              size="0"
+              size-sm="12"
+              size-md="2"
+              size-lg="3"
+              size-xl="3"
+            ></ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>¿Olvidaste algo?</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            Todavía estás a tiempo de completar tu pedido
+            <app-boton-menu></app-boton-menu>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>¿Ya está completa tu orden?</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            {{puntoVenta.sucursalSeleccionada.pedido.mensajePedidoNoValido}}
+            <ion-button
+              [disabled]="puntoVenta.sucursalSeleccionada.pedido.pedidoNoValido"
+              (click)="procederPago()"
+              expand="block"
+            >
+              Ir a página de pago
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

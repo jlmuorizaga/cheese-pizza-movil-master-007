@@ -1,0 +1,121 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Cheese Pizza Móvil</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <div id="container">
+          <h1>Registro</h1>
+          <p><strong>{{correoValidado}}</strong></p>
+          <p>Por favor registra tus datos</p>
+
+          <form [formGroup]="formularioCliente" (ngSubmit)="registraCliente()">
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col
+                  size="0"
+                  size-sm="0"
+                  size-md="2"
+                  size-lg="3"
+                  size-xl="3"
+                ></ion-col>
+                <ion-col
+                  size="12"
+                  size-sm="12"
+                  size-md="8"
+                  size-lg="6"
+                  size-xl="6"
+                >
+                  <ion-item>
+                    <ion-input
+                      label="Nombre"
+                      label-placement="floating"
+                      placeholder="Escribe tu nombre"
+                      formControlName="nombre"
+                    ></ion-input>
+                  </ion-item>
+
+                  @if (formularioCliente.get('nombre')?.invalid &&
+                  formularioCliente.get('nombre')?.touched) {
+                  <ion-label color="danger">
+                    Por favor, escribe tu nombre.
+                  </ion-label>
+                  }
+                  <br />
+
+                  <ion-item>
+                    <ion-input
+                      label="Teléfono"
+                      label-placement="floating"
+                      placeholder="9999999999"
+                      formControlName="telefono"
+                      type="tel"
+                    ></ion-input>
+                  </ion-item>
+
+                  @if (formularioCliente.get('telefono')?.invalid &&
+                  formularioCliente.get('telefono')?.touched) {
+                  <ion-label color="danger">
+                    Por favor, escribe tu teléfono a 10 dígitos.
+                  </ion-label>
+                  }
+                  <br />
+
+                  <ion-item>
+                    <ion-input
+                      label="Contraseña"
+                      label-placement="floating"
+                      formControlName="contrasenia"
+                      placeholder="Escribe una contraseña de cuatro o más caracteres"
+                      type="password"
+                    ></ion-input>
+                  </ion-item>
+
+                  @if (formularioCliente.get('contrasenia')?.invalid &&
+                  formularioCliente.get('contrasenia')?.touched) {
+                  <ion-label color="danger">
+                    Por favor, escribe una contraseña de mínimo 4 caracteres.
+                  </ion-label>
+                  }
+                  <br />
+
+                  <ion-item>
+                    <ion-input
+                      label="Confirma contraseña"
+                      label-placement="floating"
+                      formControlName="confirmaContrasenia"
+                      placeholder="Vuelve a escribir la contraseña"
+                      type="password"
+                    ></ion-input>
+                  </ion-item>
+
+                  @if (formularioCliente.get('confirmaContrasenia')?.invalid &&
+                  formularioCliente.get('confirmaContrasenia')?.touched) {
+                  <ion-label color="danger">
+                    Por favor, vuelve a escribir la contraseña (mínimo 4
+                    caracteres).
+                  </ion-label>
+                  }
+                  <br />
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+
+            <ion-button type="submit" [disabled]="formularioCliente.invalid">
+              Registrar datos
+            </ion-button>
+
+            <br />
+          </form>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

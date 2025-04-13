@@ -1,0 +1,60 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Menú productos</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <app-datos-encabezado></app-datos-encabezado>
+        <app-boton-pedido></app-boton-pedido>
+        <app-boton-menu></app-boton-menu>
+        @if(puntoVenta.sucursalSeleccionada.menu.seccionOtrosProductos.tiposProducto
+        &&
+        puntoVenta.sucursalSeleccionada.menu.seccionOtrosProductos.tiposProducto.length>0){
+        <ion-grid fixed>
+          <ion-row>
+            @for (tipoProducto of
+            puntoVenta.sucursalSeleccionada.menu.seccionOtrosProductos.tiposProducto;
+            track $index) {
+            <ion-col size-sm="12" size-md="6" size-lg="4" size-xl="3" size="12">
+              <ion-card
+                class="seleccion"
+                (click)="abreMenuProducto(tipoProducto)"
+              >
+                <img [src]="tipoProducto.imgUrlCompleta" />
+                <ion-card-header>
+                  <ion-card-title>{{tipoProducto.nombre}}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  {{tipoProducto.descripcion}}
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            }
+          </ion-row>
+        </ion-grid>
+
+        }@else {
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Buscando productos</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            Espera por favor...<br /><br />
+            Estamos buscando tus productos...
+          </ion-card-content>
+        </ion-card>
+        }
+
+        <app-boton-pedido></app-boton-pedido>
+        <app-boton-menu></app-boton-menu>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

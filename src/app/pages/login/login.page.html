@@ -1,0 +1,105 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Cheese Pizza Móvil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div id="container">
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col size="12">
+          <h1>Control de acceso</h1>
+          <p>
+            Ingresa con la cuenta de correo con la que te registraste en Cheese
+            Pizza Móvil
+          </p>
+
+          <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col
+                  size="0"
+                  size-sm="0"
+                  size-md="2"
+                  size-lg="3"
+                  size-xl="3"
+                ></ion-col>
+
+                <ion-col
+                  size="12"
+                  size-sm="12"
+                  size-md="8"
+                  size-lg="6"
+                  size-xl="6"
+                >
+                  <br />
+                  <ion-item>
+                    <ion-input
+                      label="Correo electrónico"
+                      label-placement="floating"
+                      type="email"
+                      formControlName="email"
+                      placeholder="Ingrese su correo"
+                    ></ion-input>
+                  </ion-item>
+
+                  @if (loginForm.get('email')?.invalid &&
+                  loginForm.get('email')?.touched) {
+                  <ion-label color="danger">
+                    Por favor, ingrese un correo válido.
+                  </ion-label>
+                  }
+
+                  <br />
+
+                  <br />
+                  <ion-item>
+                    <ion-input
+                      label="Contraseña de Cheese Pizza Móvil"
+                      label-placement="floating"
+                      type="password"
+                      formControlName="password"
+                      placeholder="Ingrese su contraseña para Cheese Pizza Móvil"
+                    ></ion-input>
+                  </ion-item>
+
+                  @if (loginForm.get('password')?.invalid &&
+                  loginForm.get('password')?.touched) {
+                  <ion-label color="danger"
+                    >La contraseña es obligatoria.</ion-label
+                  >
+                  }
+                  <br />
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+
+            <br />
+            <ion-checkbox formControlName="sesionAbierta"
+              >Mantener la sesión abierta</ion-checkbox
+            >
+
+            <br />
+            <br />
+            <ion-button type="submit" [disabled]="loginForm.invalid">
+              Ingresar
+            </ion-button>
+          </form>
+          <br />
+
+          <p>¿No tienes una cuenta en Cheese Pizza Móvil?</p>
+          <ion-button color="secondary" (click)="navegaRegistro()">
+            Regístrate
+          </ion-button>
+          <br />
+          <p>¿Olvidaste tu contraseña?</p>
+          <ion-button color="secondary" (click)="navegaRecuperaContrasenia()">
+            Recupera contraseña
+          </ion-button>
+          <br /><br />
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

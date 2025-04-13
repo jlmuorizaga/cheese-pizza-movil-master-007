@@ -1,0 +1,63 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Menú pizzas</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <app-datos-encabezado></app-datos-encabezado>
+        <app-boton-pedido></app-boton-pedido>
+        <app-boton-menu></app-boton-menu>
+        <div id="img2x1container">
+          <img id="img2x1" src="assets/images/2x1.png" />
+        </div>
+
+        @if(puntoVenta.sucursalSeleccionada.menu.seccionPizzas.especialidades &&
+        puntoVenta.sucursalSeleccionada.menu.seccionPizzas.especialidades.length>0){
+        <ion-grid fixed>
+          <ion-row>
+            @for (especialidad of
+            puntoVenta.sucursalSeleccionada.menu.seccionPizzas.especialidades;
+            track $index) {
+            <ion-col size-sm="12" size-md="6" size-lg="4" size-xl="4" size="12">
+              <ion-card
+                class="seleccion"
+                (click)="abrePizzaSeleccion(especialidad)"
+              >
+                <img [src]="especialidad.imgUrlCompleta" />
+                <ion-card-header>
+                  <ion-card-title>{{especialidad.nombre}}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  {{especialidad.ingredientes}}
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            }
+          </ion-row>
+        </ion-grid>
+
+        }@else {
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Buscando productos</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            Espera por favor...<br /><br />
+            Estamos buscando tus productos...
+          </ion-card-content>
+        </ion-card>
+        }
+
+        <app-boton-pedido></app-boton-pedido>
+        <app-boton-menu></app-boton-menu>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

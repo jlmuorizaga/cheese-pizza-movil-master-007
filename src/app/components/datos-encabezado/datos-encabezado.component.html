@@ -1,0 +1,40 @@
+<ion-card>
+  <ion-card-content>
+    @if (puntoVenta.cliente) {
+    <ion-label> Cliente: {{ puntoVenta.cliente.nombre }} </ion-label>
+    } @if (puntoVenta.latitud && puntoVenta.longitud) {
+    <br />
+    <ion-label>
+      Ubicación: {{ puntoVenta.latitud.toFixed(6) }},
+      {{ puntoVenta.longitud.toFixed(6) }}
+    </ion-label>
+    } @if (puntoVenta.regionActual) {
+    <br />
+    <ion-label> Región: {{ puntoVenta.regionActual.nombre }} </ion-label>
+    } @if (puntoVenta.sucursalSeleccionada) {
+    <br />
+    <ion-label>
+      Sucursal: {{ puntoVenta.sucursalSeleccionada.nombre }}
+    </ion-label>
+    } @if (puntoVenta.tipoEntrega) {
+    <br />
+    <ion-label> Tipo de entrega: {{ puntoVenta.tipoEntregaStr }} </ion-label>
+    } @if(entregaDomicilio){ @if (puntoVenta.cliente &&
+    puntoVenta.cliente.domicilioSeleccionado) {
+    <br />
+    <ion-label>
+      Domicilio: {{ puntoVenta.cliente.domicilioSeleccionado.domicilio }}
+    </ion-label>
+    <br />
+    <ion-label
+      >Ubicación: {{ puntoVenta.cliente.domicilioSeleccionado.latitud }},
+      {{ puntoVenta.cliente.domicilioSeleccionado.longitud }}</ion-label
+    >
+    } } @if(entregaSucursal){ @if (puntoVenta.sucursalSeleccionada) {
+    <br />
+    <ion-label>
+      Domicilio: {{ puntoVenta.sucursalSeleccionada.domicilio }}
+    </ion-label>
+    } }
+  </ion-card-content>
+</ion-card>

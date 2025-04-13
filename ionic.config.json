@@ -1,0 +1,7 @@
+{
+  "name": "Cheese Pizza Movil",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

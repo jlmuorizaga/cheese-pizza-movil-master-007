@@ -1,0 +1,106 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Editar mis datos</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <p>Actualiza tus datos</p>
+        <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
+          <ion-item>
+            <ion-input
+              label="Nombre"
+              label-placement="floating"
+              placeholder="Captura tu nombre"
+              formControlName="nombre"
+            ></ion-input>
+          </ion-item>
+
+          @if (clienteForm.get('nombre')?.invalid &&
+          clienteForm.get('nombre')?.touched) {
+          <ion-label color="danger">
+            El nombre no puede quedar vacío.</ion-label
+          >
+          }
+          <br />
+
+          <ion-item>
+            <ion-input
+              label="Contraseña"
+              label-placement="floating"
+              placeholder="Captura tu contraseña para Cheese Pizza"
+              formControlName="contrasenia"
+              type="password"
+            ></ion-input>
+          </ion-item>
+
+          @if (clienteForm.get('contrasenia')?.invalid &&
+          clienteForm.get('contrasenia')?.touched) {
+          <ion-label color="danger">
+            La contraseña no puede quedar vacía.</ion-label
+          >
+          }
+          <br />
+
+          <ion-item>
+            <ion-input
+              label="Confirmar contraseña"
+              label-placement="floating"
+              placeholder="Vuelve a capturar tu contraseña"
+              formControlName="confirmarContrasenia"
+              type="password"
+            ></ion-input>
+          </ion-item>
+
+          @if (clienteForm.get('confirmarContrasenia')?.invalid &&
+          clienteForm.get('confirmarContrasenia')?.touched) {
+          <ion-label color="danger">
+            La contraseña no puede quedar vacía.</ion-label
+          >
+          }
+          <br />
+
+          <!-- Muestra un mensaje de error si las contraseñas no coinciden -->
+          <div
+            *ngIf="clienteForm.errors?.['passwordMismatch'] && clienteForm.get('confirmarContrasenia')?.touched"
+            style="color: red; margin: 10px 0"
+          >
+            Las contraseñas no coinciden
+          </div>
+
+          <ion-item>
+            <ion-input
+              label="Teléfono"
+              label-placement="floating"
+              placeholder="Captura tu teléfono"
+              formControlName="telefono"
+              type="tel"
+            ></ion-input>
+          </ion-item>
+
+          @if (clienteForm.get('telefono')?.invalid &&
+          clienteForm.get('telefono')?.touched) {
+          <ion-label color="danger">
+            El teléfono debe tener 10 dígitos sin espacios.</ion-label
+          >
+          }
+          <br />
+
+          <ion-button
+            expand="full"
+            type="submit"
+            [disabled]="clienteForm.invalid"
+          >
+            Actualizar
+          </ion-button>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

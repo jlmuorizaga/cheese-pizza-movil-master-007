@@ -1,0 +1,66 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Pedido pago</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <div id="container">
+          @if(verificandoConexion){
+          <p>Verificando acceso...</p>
+          } @if(showSpinner){
+          <br />
+          <ion-spinner name="lines"></ion-spinner>
+          <br />
+          }
+          <h1>Página de pago</h1>
+
+          <p>Tipo de entrega: <strong>{{modalidadEntrega}}</strong></p>
+          <p>Sucursal: {{nombreSucursal}}</p>
+          <div *ngIf="this.puntoVenta.tipoEntrega === 'ES'">
+            <p>Se entregará en: {{textoDomicilio}}</p>
+          </div>
+          <br *ngIf="this.puntoVenta.tipoEntrega === 'ED'" />
+          <p>Cliente: {{nombreCliente}}</p>
+          <div *ngIf="this.puntoVenta.tipoEntrega === 'ED'">
+            <p>Se entregará en: {{textoDomicilio}}</p>
+          </div>
+
+          <br />
+          <ion-label><h2>{{resumenPedido}}</h2></ion-label>
+          <br />
+          <ion-label>
+            <h1>Total: {{pedido.totalPedidoMXN}}</h1>
+          </ion-label>
+
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>
+                Proporciona los datos de tu tarjeta de crédito o débito
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              @if (cumpleMontoMinimo) {
+              <!-- Incluye el componente del formulario de pago aquí -->
+              <app-payment-form></app-payment-form>
+              }@else {
+              <p>Verificando monto mínimo para el pedido</p>
+              }
+            </ion-card-content>
+          </ion-card>
+          <h1>¿Olvidaste algo?</h1>
+          <ion-button color="secondary" (click)="regresaMenu()">
+            Regresar al menú
+          </ion-button>
+          <br /><br />
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
