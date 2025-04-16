@@ -1,12 +1,9 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'mx.appixsoftware.chpsystem.pedidosmovil',
-  appName: 'Cheese Pizza Movil',
-  webDir: 'www',
-  server: {
-    androidScheme: 'http'
-  }
+  appId: 'com.example.app',
+  appName: 'cheese-pizza-movil',
+  webDir: 'www'
 };
 
 export default config;
